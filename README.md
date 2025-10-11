@@ -1,6 +1,6 @@
 # Custom PDF Viewer with Color Modes
 
-A modern, web-based PDF viewer with multiple color modes designed to reduce eye strain during extended reading sessions. Features a dark-themed interface with 12 different viewing modes.
+A modern, web-based PDF viewer with multiple color modes designed to reduce eye strain during extended reading sessions. Features a dark-themed interface with 3 different viewing modes.
 
 <img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/65a69ad2-8760-4d57-97ec-f1a2e0d84054" />
 
