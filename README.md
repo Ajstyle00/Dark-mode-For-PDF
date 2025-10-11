@@ -2,8 +2,8 @@
 
 A modern, web-based PDF viewer with multiple color modes designed to reduce eye strain during extended reading sessions. Features a dark-themed interface with 12 different viewing modes.
 
-![PDF Viewer Screenshot](<img width="1024" height="1024" alt="image" src="https://lh3.googleusercontent.com/gg-dl/AJfQ9KSkekDZr9u9WtZxc44-DoM9xqWVUpYjdGIV6dW2pxjQ4MqnXMfgJ9KAVvyM5u31u6TwsQwYuRv6t6tzizG5tt2dhRKjeieEG7G0wK1wP3pByCdwhh-wAc462TWVbqPo2hz7ZE-o_doCAkB-reSnI68ZmNwb2bjNdLUG667MesfWupm9aA=s1024-rj" />
-)
+<img width="500" height="500" alt="image" src="https://github.com/user-attachments/assets/65a69ad2-8760-4d57-97ec-f1a2e0d84054" />
+
 
 ## Features
 
