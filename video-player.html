@@ -119,21 +119,6 @@
             transform: translateY(0);
         }
 
-        .btn-fix-error {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
-            color: white;
-            display: none;
-        }
-
-        .btn-fix-error.show {
-            display: flex;
-        }
-
-        .btn-fix-error:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
-        }
-
         /* Player Container */
         .player-wrapper {
             position: relative;
@@ -165,13 +150,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 10;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .player-wrapper:hover .player-overlay {
+        .player-overlay.show {
             opacity: 1;
         }
 
@@ -187,6 +174,12 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
         }
 
         /* Controls */
@@ -305,12 +298,6 @@
             transition: all 0.3s ease;
         }
 
-        .volume-slider::-webkit-slider-thumb:hover {
-            width: 18px;
-            height: 18px;
-            background: #f7931e;
-        }
-
         .volume-slider::-moz-range-thumb {
             width: 14px;
             height: 14px;
@@ -318,7 +305,6 @@
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
         /* Dropdowns */
@@ -349,7 +335,7 @@
             border-radius: 8px;
             font-size: 0.85em;
             font-family: 'Courier New', monospace;
-            max-width: 250px;
+            max-width: 280px;
             z-index: 15;
             border: 1px solid #ff6b35;
             display: none;
@@ -364,6 +350,7 @@
             display: flex;
             justify-content: space-between;
             gap: 10px;
+            word-break: break-all;
         }
 
         .stat-label {
@@ -373,6 +360,7 @@
 
         .stat-value {
             color: #f7931e;
+            text-align: right;
         }
 
         /* Error Box */
@@ -414,8 +402,9 @@
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
             margin-bottom: 10px;
-            max-height: 100px;
+            max-height: 120px;
             overflow-y: auto;
+            word-break: break-all;
         }
 
         .error-actions {
@@ -510,6 +499,18 @@
             font-size: 0.9em;
         }
 
+        /* Timeout Warning */
+        .timeout-warning {
+            color: #ff9800;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .timeout-warning.show {
+            display: block;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -535,7 +536,7 @@
             .stats-panel {
                 font-size: 0.75em;
                 padding: 10px;
-                max-width: 120px;
+                max-width: 140px;
                 top: 10px;
                 right: 10px;
             }
@@ -549,7 +550,7 @@
 <body>
     <div class="container">
         <h1>🎬 Advanced Custom Video Player</h1>
-        <p class="subtitle">m3u8 • MP4 • MKV • CDN • WebM • And More</p>
+        <p class="subtitle">m3u8 • MP4 • MKV • CDN • WebM • Works with CORS issues</p>
 
         <!-- Error Box -->
         <div class="error-box" id="errorBox">
@@ -557,9 +558,12 @@
             <div class="error-details" id="errorDetails"></div>
             <div class="error-actions">
                 <button onclick="player.fixError('retry')">🔄 Retry</button>
-                <button onclick="player.fixError('fallback')">📹 Fallback</button>
-                <button onclick="player.fixError('auto')">🤖 Auto-Fix</button>
+                <button onclick="player.fixError('proxy')">🔗 Use Proxy</button>
+                <button onclick="player.fixError('stream')">📡 Stream Mode</button>
                 <button onclick="player.fixError('clear')">✕ Clear</button>
+            </div>
+            <div class="timeout-warning" id="timeoutWarning">
+                ⏱️ Still loading? Try "Use Proxy" button above
             </div>
         </div>
 
@@ -570,8 +574,8 @@
                 <input 
                     type="text" 
                     id="videoUrl" 
-                    placeholder="Paste m3u8, MP4, MKV, or CDN link..."
-                    value="https://commondatastorage.googleapis.com/gtv-videos-library/sample/BigBuckBunny.mp4">
+                    placeholder="Paste m3u8, MP4, MKV, CDN, or any video link..."
+                    value="">
             </div>
 
             <div class="input-group">
@@ -589,7 +593,7 @@
 
         <!-- Video Player -->
         <div class="player-wrapper" id="playerWrapper">
-            <video id="videoPlayer"></video>
+            <video id="videoPlayer" crossorigin="anonymous"></video>
             
             <div class="stats-panel" id="statsPanel">
                 <div class="stat-line">
@@ -601,17 +605,22 @@
                     <span class="stat-value" id="statResolution">-</span>
                 </div>
                 <div class="stat-line">
-                    <span class="stat-label">Bitrate:</span>
-                    <span class="stat-value" id="statBitrate">-</span>
+                    <span class="stat-label">Status:</span>
+                    <span class="stat-value" id="statStatus">Ready</span>
+                </div>
+                <div class="stat-line">
+                    <span class="stat-label">Loaded:</span>
+                    <span class="stat-value" id="statLoaded">0%</span>
                 </div>
                 <div class="stat-line">
                     <span class="stat-label">Duration:</span>
-                    <span class="stat-value" id="statDuration">-</span>
+                    <span class="stat-value" id="statDuration">--:--</span>
                 </div>
             </div>
 
             <div class="player-overlay" id="playerOverlay">
                 <div class="spinner"></div>
+                <div class="loading-text" id="loadingText">Loading video...</div>
             </div>
 
             <div class="controls">
@@ -636,10 +645,6 @@
                     </div>
 
                     <span id="timeDisplay" style="color: white; font-family: monospace; min-width: 100px;">00:00 / 00:00</span>
-
-                    <select class="dropdown" id="qualitySelector" onchange="player.changeQuality(this.value)">
-                        <option value="">📊 Quality</option>
-                    </select>
 
                     <select class="dropdown" id="speedSelector" onchange="player.setPlaybackRate(this.value)">
                         <option value="0.5">⏩ 0.5x</option>
@@ -713,21 +718,34 @@
                 this.volumeSlider = document.getElementById('volumeSlider');
                 this.volumeBtn = document.getElementById('volumeBtn');
                 this.timeDisplay = document.getElementById('timeDisplay');
-                this.qualitySelector = document.getElementById('qualitySelector');
                 this.speedSelector = document.getElementById('speedSelector');
                 this.statsPanel = document.getElementById('statsPanel');
                 this.errorBox = document.getElementById('errorBox');
                 this.errorDetails = document.getElementById('errorDetails');
                 this.playerWrapper = document.getElementById('playerWrapper');
                 this.playerOverlay = document.getElementById('playerOverlay');
+                this.loadingText = document.getElementById('loadingText');
+                this.timeoutWarning = document.getElementById('timeoutWarning');
 
                 this.hls = null;
                 this.currentFormat = null;
                 this.lastError = null;
                 this.currentUrl = null;
+                this.loadTimeout = null;
+                this.useProxy = false;
 
                 this.initializeEventListeners();
                 this.setupKeyboardShortcuts();
+            }
+
+            // CORS Proxy Services
+            getProxyUrl(url) {
+                const proxies = [
+                    `https://cors-anywhere.herokuapp.com/${url}`,
+                    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                    `https://thingproxy.freeboard.io/fetch/${url}`
+                ];
+                return proxies[0];
             }
 
             // Format detection
@@ -749,7 +767,7 @@
                         return { ext, name };
                     }
                 }
-                return { ext: 'unknown', name: 'Unknown Format' };
+                return { ext: 'direct', name: 'Direct Stream' };
             }
 
             getMimeType(format) {
@@ -762,7 +780,7 @@
                     'avi': 'video/x-msvideo',
                     'flv': 'video/x-flv',
                     'wmv': 'video/x-ms-wmv',
-                    'ogg': 'video/ogg'
+                    'direct': 'video/mp4'
                 };
                 return types[format] || 'video/*';
             }
@@ -777,6 +795,14 @@
                 this.currentUrl = url;
                 this.clearError();
                 this.showLoading(true);
+                this.updateStats('Status', 'Loading...');
+                this.useProxy = false;
+
+                // Set timeout warning after 8 seconds
+                clearTimeout(this.loadTimeout);
+                this.loadTimeout = setTimeout(() => {
+                    this.timeoutWarning.classList.add('show');
+                }, 8000);
 
                 try {
                     const format = this.detectFormat(url);
@@ -807,29 +833,60 @@
                     this.hls.destroy();
                 }
 
-                this.hls = new Hls({ debug: false });
+                this.hls = new Hls({ 
+                    debug: false,
+                    enableWorker: true,
+                    lowLevelLogger: null
+                });
 
                 this.hls.on(Hls.Events.hlsManifestParsed, () => {
+                    clearTimeout(this.loadTimeout);
+                    this.timeoutWarning.classList.remove('show');
                     this.showLoading(false);
-                    this.updateQualitySelector();
-                    this.video.play().catch(e => this.handleError('Autoplay failed', e));
+                    this.updateStats('Status', 'Ready');
+                    this.video.play().catch(e => this.handleError('Autoplay blocked', e));
                 });
 
                 this.hls.on(Hls.Events.hlsError, (event, data) => {
                     this.handleHLSError(data);
                 });
 
-                this.hls.loadSource(url);
-                this.hls.attachMedia(this.video);
+                this.hls.on(Hls.Events.hlsFragChanged, (event, data) => {
+                    this.updateStats('Loaded', Math.round((data.frag.duration / this.video.duration) * 100) + '%');
+                });
+
+                try {
+                    this.hls.loadSource(url);
+                    this.hls.attachMedia(this.video);
+                } catch (error) {
+                    this.handleError('Failed to load HLS stream', error);
+                }
             }
 
             loadDirectVideo(url, format) {
+                clearTimeout(this.loadTimeout);
                 this.video.src = '';
                 const source = document.createElement('source');
-                source.src = url;
+                source.src = this.useProxy ? this.getProxyUrl(url) : url;
                 source.type = this.getMimeType(format.ext);
                 this.video.appendChild(source);
-                this.showLoading(false);
+
+                this.video.onloadstart = () => {
+                    this.updateStats('Status', 'Connecting...');
+                };
+
+                this.video.oncanplay = () => {
+                    clearTimeout(this.loadTimeout);
+                    this.timeoutWarning.classList.remove('show');
+                    this.showLoading(false);
+                    this.updateStats('Status', 'Playing');
+                };
+
+                this.video.onerror = (e) => {
+                    this.handleError('Failed to load video source', e);
+                };
+
+                this.video.load();
             }
 
             loadSubtitles(url) {
@@ -842,32 +899,18 @@
                 this.video.appendChild(track);
             }
 
-            updateQualitySelector() {
-                if (!this.hls || !this.hls.levels) return;
-                this.qualitySelector.innerHTML = '<option value="">📊 Quality</option>';
-                this.hls.levels.forEach((level, index) => {
-                    const option = document.createElement('option');
-                    option.value = index;
-                    option.textContent = `${level.width}x${level.height}`;
-                    this.qualitySelector.appendChild(option);
-                });
-            }
-
-            changeQuality(levelIndex) {
-                if (!this.hls) return;
-                this.hls.currentLevel = parseInt(levelIndex);
-            }
-
             // Error handling
             handleError(message, error) {
+                clearTimeout(this.loadTimeout);
                 this.lastError = {
                     message,
                     details: error?.message || String(error),
                     format: this.currentFormat?.name || 'Unknown',
                     timestamp: new Date().toLocaleTimeString()
                 };
-                this.showError(`${message}: ${error?.message || error}`);
+                this.showError(`${message}\n\nError: ${error?.message || error}`);
                 this.showLoading(false);
+                this.updateStats('Status', 'Error');
             }
 
             handleHLSError(data) {
@@ -893,6 +936,7 @@
             clearError() {
                 this.errorBox.classList.remove('show');
                 this.errorDetails.textContent = '';
+                this.timeoutWarning.classList.remove('show');
             }
 
             fixError(action) {
@@ -900,15 +944,16 @@
                     case 'retry':
                         this.loadVideoFromUrl();
                         break;
-                    case 'fallback':
-                        if (this.currentFormat?.ext === 'm3u8') {
-                            this.loadDirectVideo(this.currentUrl, { ext: 'mp4', name: 'Fallback' });
-                        } else {
-                            this.loadHLSStream(this.currentUrl);
-                        }
+                    case 'proxy':
+                        this.useProxy = true;
+                        this.showLoading(true);
+                        this.clearError();
+                        setTimeout(() => {
+                            this.loadVideoFromUrl();
+                        }, 500);
                         break;
-                    case 'auto':
-                        this.fixError('fallback');
+                    case 'stream':
+                        this.loadDirectVideo(this.currentUrl, { ext: 'mp4', name: 'Stream' });
                         break;
                     case 'clear':
                         this.clearError();
@@ -919,7 +964,9 @@
             // Playback controls
             togglePlay() {
                 if (this.video.paused) {
-                    this.video.play();
+                    this.video.play().catch(e => {
+                        console.log('Play failed:', e);
+                    });
                     this.playBtn.textContent = '⏸️ Pause';
                 } else {
                     this.video.pause();
@@ -987,16 +1034,21 @@
             }
 
             showLoading(show) {
-                this.playerOverlay.style.opacity = show ? '1' : '0';
+                this.playerOverlay.classList.toggle('show', show);
+                if (show) {
+                    this.loadingText.textContent = 'Loading video...';
+                }
             }
 
             initializeEventListeners() {
                 this.video.addEventListener('play', () => {
                     this.playBtn.textContent = '⏸️ Pause';
+                    this.updateStats('Status', 'Playing');
                 });
 
                 this.video.addEventListener('pause', () => {
                     this.playBtn.textContent = '▶️ Play';
+                    this.updateStats('Status', 'Paused');
                 });
 
                 this.video.addEventListener('timeupdate', () => {
@@ -1007,6 +1059,14 @@
 
                 this.video.addEventListener('loadedmetadata', () => {
                     this.updateStats('Duration', this.formatTime(this.video.duration));
+                });
+
+                this.video.addEventListener('progress', () => {
+                    if (this.video.buffered.length > 0) {
+                        const bufferedEnd = this.video.buffered.end(this.video.buffered.length - 1);
+                        const percent = (bufferedEnd / this.video.duration) * 100;
+                        this.updateStats('Loaded', Math.round(percent) + '%');
+                    }
                 });
 
                 this.progressBar.addEventListener('click', (e) => {
