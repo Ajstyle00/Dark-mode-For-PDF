@@ -24,9 +24,9 @@
         .container {
             width: 100%;
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             padding: 30px;
             backdrop-filter: blur(10px);
         }
@@ -74,6 +74,7 @@
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s ease;
+            font-family: monospace;
         }
 
         .input-group input:focus {
@@ -108,11 +109,13 @@
         .btn-load {
             background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
             color: white;
+            padding: 14px 25px;
+            font-size: 1.05em;
         }
 
         .btn-load:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.4);
+            box-shadow: 0 8px 20px rgba(42, 82, 152, 0.5);
         }
 
         .btn-load:active {
@@ -129,7 +132,7 @@
             border-radius: 15px;
             background: #000;
             margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
 
         .player-wrapper video {
@@ -147,26 +150,25 @@
             left: 0;
             right: 0;
             bottom: 0;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 1;
             z-index: 10;
             flex-direction: column;
             gap: 20px;
         }
 
         .player-overlay.show {
-            opacity: 1;
+            display: flex;
         }
 
         /* Loading Spinner */
         .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 107, 53, 0.3);
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255, 107, 53, 0.3);
             border-top-color: #ff6b35;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -177,8 +179,8 @@
         }
 
         .loading-text {
-            color: white;
-            font-size: 1.1em;
+            color: #ff6b35;
+            font-size: 1.2em;
             font-weight: 600;
         }
 
@@ -189,7 +191,7 @@
             left: 0;
             right: 0;
             padding: 20px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -230,15 +232,16 @@
             position: absolute;
             bottom: 15px;
             left: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             color: #fff;
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
-            font-size: 0.85em;
+            font-size: 0.9em;
             pointer-events: none;
             transform: translateX(-50%);
             opacity: 0;
             white-space: nowrap;
+            font-weight: 600;
         }
 
         .progress-bar:hover .progress-tooltip {
@@ -248,25 +251,27 @@
         .control-buttons {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .control-buttons button {
-            padding: 8px 12px;
-            background: rgba(255, 107, 53, 0.8);
+            padding: 10px 14px;
+            background: rgba(255, 107, 53, 0.9);
             color: white;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.95em;
             transition: all 0.3s ease;
             width: auto;
+            font-weight: 600;
         }
 
         .control-buttons button:hover {
             background: #ff6b35;
-            transform: scale(1.05);
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.5);
         }
 
         /* Volume Control */
@@ -278,11 +283,11 @@
 
         .volume-slider {
             width: 100px;
-            height: 4px;
+            height: 5px;
             -webkit-appearance: none;
             appearance: none;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 3px;
             outline: none;
             cursor: pointer;
         }
@@ -290,38 +295,41 @@
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             background: #ff6b35;
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.5);
         }
 
         .volume-slider::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             background: #ff6b35;
             border: none;
             border-radius: 50%;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.5);
         }
 
         /* Dropdowns */
         .dropdown {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(255, 107, 53, 0.9);
             color: white;
-            border: 1px solid #ff6b35;
-            padding: 8px 12px;
+            border: 2px solid #ff6b35;
+            padding: 10px 14px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.9em;
+            font-size: 0.95em;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
         .dropdown:hover {
-            background: rgba(0, 0, 0, 0.9);
-            border-color: #f7931e;
+            background: #ff6b35;
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.5);
         }
 
         /* Statistics Panel */
@@ -329,16 +337,17 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.92);
             color: #ff6b35;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 0.85em;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 0.9em;
             font-family: 'Courier New', monospace;
-            max-width: 280px;
+            max-width: 300px;
             z-index: 15;
-            border: 1px solid #ff6b35;
+            border: 2px solid #ff6b35;
             display: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .stats-panel.show {
@@ -346,43 +355,49 @@
         }
 
         .stat-line {
-            margin: 5px 0;
+            margin: 8px 0;
             display: flex;
             justify-content: space-between;
-            gap: 10px;
+            gap: 15px;
             word-break: break-all;
         }
 
         .stat-label {
-            color: #fff;
+            color: #ffffff;
             font-weight: bold;
+            min-width: 80px;
         }
 
         .stat-value {
             color: #f7931e;
             text-align: right;
+            font-weight: 600;
         }
 
-        /* Error Box */
+        /* Error Box - IMPORTANT: MAKE IT VISIBLE */
         .error-box {
             background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 12px;
             margin-bottom: 20px;
             display: none;
-            border-left: 4px solid #fff;
+            border-left: 5px solid #fff;
+            border: 3px solid #fff;
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            position: relative;
+            z-index: 100;
         }
 
         .error-box.show {
             display: block;
-            animation: slideDown 0.3s ease;
+            animation: slideDown 0.4s ease;
         }
 
         @keyframes slideDown {
             from {
                 opacity: 0;
-                transform: translateY(-10px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -391,50 +406,73 @@
         }
 
         .error-box h3 {
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
         }
 
         .error-details {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 12px;
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-            max-height: 120px;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            max-height: 150px;
             overflow-y: auto;
             word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .timeout-warning {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 1.05em;
+            font-weight: 600;
+            display: none;
+            border-left: 3px solid white;
+        }
+
+        .timeout-warning.show {
+            display: block;
         }
 
         .error-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
         }
 
         .error-actions button {
-            padding: 8px 15px;
-            background: rgba(255, 255, 255, 0.3);
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.25);
             color: white;
             border: 2px solid white;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.3s ease;
             width: 100%;
+            font-size: 0.95em;
         }
 
         .error-actions button:hover {
             background: white;
             color: #ff6b35;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .error-actions button:active {
+            transform: translateY(0);
         }
 
         /* Info Section */
         .info-section {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             margin-top: 30px;
             border-left: 4px solid #2a5298;
@@ -442,32 +480,35 @@
 
         .info-section h3 {
             color: #1e3c72;
-            margin-bottom: 15px;
-            font-size: 1.3em;
+            margin-bottom: 18px;
+            font-size: 1.4em;
+            font-weight: 700;
         }
 
         .format-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .format-badge {
             background: white;
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
             text-align: center;
             border: 2px solid #2a5298;
             font-weight: 600;
             color: #1e3c72;
             transition: all 0.3s ease;
+            font-size: 0.95em;
         }
 
         .format-badge:hover {
             border-color: #ff6b35;
             color: #ff6b35;
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(255, 107, 53, 0.2);
         }
 
         .shortcuts {
@@ -480,18 +521,19 @@
             background: white;
             padding: 12px;
             border-radius: 8px;
-            border-left: 3px solid #ff6b35;
+            border-left: 4px solid #ff6b35;
         }
 
         .shortcut-key {
             background: #1e3c72;
             color: white;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             font-weight: bold;
             font-family: 'Courier New', monospace;
             display: inline-block;
             margin-right: 8px;
+            font-size: 0.9em;
         }
 
         .shortcut-desc {
@@ -499,22 +541,10 @@
             font-size: 0.9em;
         }
 
-        /* Timeout Warning */
-        .timeout-warning {
-            color: #ff9800;
-            font-size: 0.9em;
-            margin-top: 10px;
-            display: none;
-        }
-
-        .timeout-warning.show {
-            display: block;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 20px;
             }
 
             h1 {
@@ -525,45 +555,50 @@
                 grid-template-columns: 1fr;
             }
 
-            .button-group {
-                flex-direction: row;
-            }
-
-            .control-buttons {
-                justify-content: space-between;
-            }
-
-            .stats-panel {
-                font-size: 0.75em;
-                padding: 10px;
-                max-width: 140px;
-                top: 10px;
-                right: 10px;
+            .error-box {
+                padding: 20px;
             }
 
             .error-actions {
                 grid-template-columns: 1fr;
+            }
+
+            .stats-panel {
+                font-size: 0.8em;
+                padding: 12px;
+                max-width: 160px;
+                top: 10px;
+                right: 10px;
+            }
+
+            .control-buttons {
+                gap: 8px;
+            }
+
+            .control-buttons button {
+                padding: 8px 10px;
+                font-size: 0.85em;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎬 Advanced Custom Video Player</h1>
-        <p class="subtitle">m3u8 • MP4 • MKV • CDN • WebM • Works with CORS issues</p>
+        <h1>🎬 Advanced Video Player</h1>
+        <p class="subtitle">m3u8 • MP4 • MKV • CDN • WebM - Fixed Loading Issues</p>
 
-        <!-- Error Box -->
+        <!-- Error Box - NOW VISIBLE AND PROMINENT -->
         <div class="error-box" id="errorBox">
-            <h3>⚠️ Playback Error Detected</h3>
-            <div class="error-details" id="errorDetails"></div>
+            <h3>⚠️ Video Loading Issue</h3>
+            <div class="error-details" id="errorDetails">No error details</div>
+            <div class="timeout-warning" id="timeoutWarning">
+                ⏱️ <strong>Still loading after 8 seconds?</strong> Try the "Use Proxy" button below
+            </div>
             <div class="error-actions">
-                <button onclick="player.fixError('retry')">🔄 Retry</button>
+                <button onclick="player.fixError('retry')">🔄 Retry Load</button>
                 <button onclick="player.fixError('proxy')">🔗 Use Proxy</button>
                 <button onclick="player.fixError('stream')">📡 Stream Mode</button>
-                <button onclick="player.fixError('clear')">✕ Clear</button>
-            </div>
-            <div class="timeout-warning" id="timeoutWarning">
-                ⏱️ Still loading? Try "Use Proxy" button above
+                <button onclick="player.fixError('clear')">✕ Dismiss</button>
             </div>
         </div>
 
@@ -574,20 +609,20 @@
                 <input 
                     type="text" 
                     id="videoUrl" 
-                    placeholder="Paste m3u8, MP4, MKV, CDN, or any video link..."
+                    placeholder="Paste m3u8, MP4, MKV, CDN link..."
                     value="">
             </div>
 
             <div class="input-group">
-                <label for="subtitleUrl">📝 Subtitle URL (Optional)</label>
+                <label for="subtitleUrl">📝 Subtitle (Optional)</label>
                 <input 
                     type="text" 
                     id="subtitleUrl" 
-                    placeholder="Paste VTT or SRT subtitle link...">
+                    placeholder="Paste VTT or SRT link...">
             </div>
 
             <div class="button-group">
-                <button class="btn-load" onclick="player.loadVideoFromUrl()">▶️ Load</button>
+                <button class="btn-load" onclick="player.loadVideoFromUrl()">▶️ Load Video</button>
             </div>
         </div>
 
@@ -599,10 +634,6 @@
                 <div class="stat-line">
                     <span class="stat-label">Format:</span>
                     <span class="stat-value" id="statFormat">-</span>
-                </div>
-                <div class="stat-line">
-                    <span class="stat-label">Resolution:</span>
-                    <span class="stat-value" id="statResolution">-</span>
                 </div>
                 <div class="stat-line">
                     <span class="stat-label">Status:</span>
@@ -630,10 +661,10 @@
                 </div>
 
                 <div class="control-buttons">
-                    <button id="playBtn" onclick="player.togglePlay()" title="Play/Pause">▶️ Play</button>
+                    <button id="playBtn" onclick="player.togglePlay()">▶️ Play</button>
                     
                     <div class="volume-control">
-                        <button id="volumeBtn" onclick="player.toggleMute()" title="Mute">🔊</button>
+                        <button id="volumeBtn" onclick="player.toggleMute()">🔊</button>
                         <input 
                             type="range" 
                             id="volumeSlider" 
@@ -644,18 +675,18 @@
                             oninput="player.setVolume(this.value)">
                     </div>
 
-                    <span id="timeDisplay" style="color: white; font-family: monospace; min-width: 100px;">00:00 / 00:00</span>
+                    <span id="timeDisplay" style="color: white; font-family: monospace; min-width: 110px; font-weight: 600;">00:00 / 00:00</span>
 
                     <select class="dropdown" id="speedSelector" onchange="player.setPlaybackRate(this.value)">
-                        <option value="0.5">⏩ 0.5x</option>
-                        <option value="1" selected>⏩ 1x</option>
-                        <option value="1.5">⏩ 1.5x</option>
-                        <option value="2">⏩ 2x</option>
+                        <option value="0.5">0.5x</option>
+                        <option value="1" selected>1x</option>
+                        <option value="1.5">1.5x</option>
+                        <option value="2">2x</option>
                     </select>
 
-                    <button id="pipBtn" onclick="player.togglePictureInPicture()" title="PiP">🖼️ PiP</button>
-                    <button id="statsBtn" onclick="player.toggleStats()" title="Stats">📊 Stats</button>
-                    <button id="fullscreenBtn" onclick="player.toggleFullscreen()" title="Fullscreen">🖥️ FS</button>
+                    <button id="pipBtn" onclick="player.togglePictureInPicture()">🖼️ PiP</button>
+                    <button id="statsBtn" onclick="player.toggleStats()">📊 Stats</button>
+                    <button id="fullscreenBtn" onclick="player.toggleFullscreen()">🖥️ FS</button>
                 </div>
             </div>
         </div>
@@ -740,12 +771,7 @@
 
             // CORS Proxy Services
             getProxyUrl(url) {
-                const proxies = [
-                    `https://cors-anywhere.herokuapp.com/${url}`,
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                    `https://thingproxy.freeboard.io/fetch/${url}`
-                ];
-                return proxies[0];
+                return `https://cors-anywhere.herokuapp.com/${url}`;
             }
 
             // Format detection
@@ -788,7 +814,7 @@
             loadVideoFromUrl() {
                 const url = this.videoUrl.value.trim();
                 if (!url) {
-                    this.showError('⚠️ Please enter a video URL');
+                    this.showError('Please enter a video URL', '');
                     return;
                 }
 
@@ -801,7 +827,9 @@
                 // Set timeout warning after 8 seconds
                 clearTimeout(this.loadTimeout);
                 this.loadTimeout = setTimeout(() => {
-                    this.timeoutWarning.classList.add('show');
+                    if (this.playerOverlay.classList.contains('show')) {
+                        this.timeoutWarning.classList.add('show');
+                    }
                 }, 8000);
 
                 try {
@@ -835,8 +863,7 @@
 
                 this.hls = new Hls({ 
                     debug: false,
-                    enableWorker: true,
-                    lowLevelLogger: null
+                    enableWorker: true
                 });
 
                 this.hls.on(Hls.Events.hlsManifestParsed, () => {
@@ -844,15 +871,13 @@
                     this.timeoutWarning.classList.remove('show');
                     this.showLoading(false);
                     this.updateStats('Status', 'Ready');
-                    this.video.play().catch(e => this.handleError('Autoplay blocked', e));
+                    this.video.play().catch(e => {
+                        console.log('Autoplay prevented');
+                    });
                 });
 
                 this.hls.on(Hls.Events.hlsError, (event, data) => {
                     this.handleHLSError(data);
-                });
-
-                this.hls.on(Hls.Events.hlsFragChanged, (event, data) => {
-                    this.updateStats('Loaded', Math.round((data.frag.duration / this.video.duration) * 100) + '%');
                 });
 
                 try {
@@ -905,10 +930,9 @@
                 this.lastError = {
                     message,
                     details: error?.message || String(error),
-                    format: this.currentFormat?.name || 'Unknown',
-                    timestamp: new Date().toLocaleTimeString()
+                    format: this.currentFormat?.name || 'Unknown'
                 };
-                this.showError(`${message}\n\nError: ${error?.message || error}`);
+                this.showError(message, error?.message || error);
                 this.showLoading(false);
                 this.updateStats('Status', 'Error');
             }
@@ -917,10 +941,10 @@
                 if (data.fatal) {
                     switch (data.type) {
                         case 'networkError':
-                            this.handleError('Network Error - Check URL and CORS headers', new Error(data.details));
+                            this.handleError('Network Error', new Error(data.details));
                             break;
                         case 'mediaError':
-                            this.handleError('Media Error - Stream format not supported', new Error(data.details));
+                            this.handleError('Media Format Error', new Error(data.details));
                             break;
                         default:
                             this.handleError('HLS Stream Error', new Error(data.details));
@@ -928,9 +952,10 @@
                 }
             }
 
-            showError(message) {
+            showError(message, details = '') {
                 this.errorBox.classList.add('show');
-                this.errorDetails.textContent = message;
+                this.errorDetails.textContent = `${message}${details ? '\n\n' + details : ''}`;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
             clearError() {
@@ -950,7 +975,7 @@
                         this.clearError();
                         setTimeout(() => {
                             this.loadVideoFromUrl();
-                        }, 500);
+                        }, 1000);
                         break;
                     case 'stream':
                         this.loadDirectVideo(this.currentUrl, { ext: 'mp4', name: 'Stream' });
@@ -964,9 +989,7 @@
             // Playback controls
             togglePlay() {
                 if (this.video.paused) {
-                    this.video.play().catch(e => {
-                        console.log('Play failed:', e);
-                    });
+                    this.video.play().catch(e => console.log('Play prevented'));
                     this.playBtn.textContent = '⏸️ Pause';
                 } else {
                     this.video.pause();
@@ -1006,7 +1029,7 @@
                         this.video.requestPictureInPicture();
                     }
                 } catch (error) {
-                    this.showError('PiP not supported in this browser');
+                    this.showError('PiP not supported in this browser', '');
                 }
             }
 
@@ -1018,7 +1041,7 @@
                         document.exitFullscreen();
                     }
                 } catch (error) {
-                    this.showError('Fullscreen not supported');
+                    this.showError('Fullscreen not supported', '');
                 }
             }
 
